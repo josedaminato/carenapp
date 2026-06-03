@@ -343,16 +343,6 @@
   </style>
 </head>
 <body>
-  <script>
-    (function () {
-      if (document.getElementById('screen-welcome')) return;
-      var key = 'ef-demo-reload';
-      if (!sessionStorage.getItem(key)) {
-        sessionStorage.setItem(key, '1');
-        location.replace(location.pathname + '?v=' + Date.now());
-      }
-    })();
-  </script>
   <div class="app-shell">
     <div class="demo-banner">
       <strong>Demo interactiva</strong> — Probá el botón 🔥 (vibra en celular)

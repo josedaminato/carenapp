@@ -2,19 +2,33 @@
 
 App minimalista para grupos de amigas. Un botón. Una notificación. Nadie sabe quién fue.
 
-## 👀 Ver la interfaz (compartir con amigas)
+---
+
+## 🔥 VER LA APP (compartir con amigas)
+
+### Paso 1 — Activar Pages (solo una vez, 1 minuto)
+
+👉 **[CLIC ACÁ: Settings → Pages](https://github.com/josedaminato/carenapp/settings/pages)**
+
+- **Source:** `GitHub Actions`  
+  **— o —**  
+- **Source:** `Deploy from branch` → rama **`gh-pages`** → carpeta **`/ (root)`**
+
+Guardá y esperá 2 minutos.
+
+### Paso 2 — Abrir este link
 
 **https://josedaminato.github.io/carenapp/**
 
-### Si ves error 404 — activar Pages (solo una vez)
+### Si sigue 404 — link alternativo (celular)
 
-1. Abrí **[Settings → Pages](https://github.com/josedaminato/carenapp/settings/pages)**
-2. En **Build and deployment → Source** elegí **Deploy from a branch**
-3. **Branch:** `gh-pages` → carpeta **`/ (root)`**
-4. Clic en **Save**
-5. Esperá 2 minutos y abrí el link de arriba
+Abrilo en **Chrome o Safari** (no desde WhatsApp):
 
-Demo interactiva: probá el botón 🔥 (vibra en celular).
+https://htmlpreview.github.io/?https://github.com/josedaminato/carenapp/blob/gh-pages/index.html
+
+Instrucciones detalladas: [ACTIVAR-PAGES.md](./ACTIVAR-PAGES.md)
+
+---
 
 **Repositorio:** [github.com/josedaminato/carenapp](https://github.com/josedaminato/carenapp)
 
@@ -22,51 +36,13 @@ Demo interactiva: probá el botón 🔥 (vibra en celular).
 
 1. Las amigas se registran y forman un grupo (código de invitación).
 2. Entran al grupo y ven el botón **🔥 ENCENDER FUEGO**.
-3. Al apretarlo:
-   - Su celular **vibra** (si dieron permiso).
-   - El resto recibe: **"🔥 Alguien encendió el fuego."**
-   - Nadie sabe quién fue.
+3. Al apretarlo: vibra el celular y el resto recibe *"🔥 Alguien encendió el fuego."*
+4. Nadie sabe quién fue.
 
-## Qué NO hace
-
-- Sin chat, estadísticas, muro, reacciones ni rankings.
-- Sin hora, fecha ni historial visible.
-
-## Inicio rápido
+## Inicio rápido (app real)
 
 ```bash
-# Base de datos
 docker compose up -d postgres
-
-# Backend
-cd backend
-npm install
-npx prisma db push
-npm run dev
-
-# App
-cd mobile
-npm install
-npx expo start
+cd backend && npm install && npx prisma db push && npm run dev
+cd mobile && npm install && npx expo start
 ```
-
-> En Android/emulador: cambiá `apiUrl` en `mobile/app.json` a `http://10.0.2.2:3000/api`.
-
-## API (MVP)
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| POST | `/api/auth/register` | Registro |
-| POST | `/api/auth/login` | Login |
-| GET | `/api/groups` | Mis grupos |
-| POST | `/api/groups` | Crear grupo |
-| POST | `/api/groups/join` | Unirse con código |
-| GET | `/api/groups/:id` | Estado del fuego |
-| POST | `/api/groups/:id/fire` | Encender fuego |
-| POST | `/api/push/register` | Token push |
-
-## Stack
-
-- **Mobile:** React Native + Expo
-- **Backend:** Node.js + Express + Prisma
-- **DB:** PostgreSQL
