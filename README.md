@@ -2,6 +2,27 @@
 
 Aplicación social y lúdica para grupos de amigas. Cuando alguien enciende la "luz", todo el grupo lo sabe — sin revelar quién fue.
 
+**Repositorio:** [github.com/josedaminato/carenapp](https://github.com/josedaminato/carenapp)
+
+## Ver la interfaz
+
+### Preview en navegador (GitHub Pages)
+
+1. En GitHub → **Settings** → **Pages**
+2. Source: **Deploy from a branch** → Branch `main` → Folder **`/docs`**
+3. Guarda y espera ~1 minuto
+4. Abre: **https://josedaminato.github.io/carenapp/preview/**
+
+### App interactiva (Expo)
+
+```bash
+cd mobile
+npm install
+npx expo start
+```
+
+Escanea el QR con **Expo Go** en tu celular.
+
 ## Estructura del proyecto
 
 ```

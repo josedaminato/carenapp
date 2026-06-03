@@ -12,11 +12,11 @@ import { useLocalSearchParams, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Clipboard from 'expo-clipboard';
-import { Button } from '../../src/components/Button';
-import { LightOrb } from '../../src/components/LightOrb';
-import { FeedItem } from '../../src/components/FeedItem';
-import { api, ApiError } from '../../src/services/api';
-import { colors, spacing, borderRadius, typography } from '../../src/theme';
+import { Button } from '../../../src/components/Button';
+import { LightOrb } from '../../../src/components/LightOrb';
+import { FeedItem } from '../../../src/components/FeedItem';
+import { api, ApiError } from '../../../src/services/api';
+import { colors, spacing, borderRadius, typography } from '../../../src/theme';
 
 export default function GroupScreen() {
   const { id } = useLocalSearchParams();
