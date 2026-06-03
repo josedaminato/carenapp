@@ -6,9 +6,13 @@ App minimalista para grupos de amigas. Un botón. Una notificación. Nadie sabe 
 
 **https://josedaminato.github.io/carenapp/**
 
-Si ves texto del README en lugar de la app, usá este link directo:
+### Si ves error 404 — activar Pages (solo una vez)
 
-**https://josedaminato.github.io/carenapp/?v=2**
+1. Abrí **[Settings → Pages](https://github.com/josedaminato/carenapp/settings/pages)**
+2. En **Build and deployment → Source** elegí **Deploy from a branch**
+3. **Branch:** `gh-pages` → carpeta **`/ (root)`**
+4. Clic en **Save**
+5. Esperá 2 minutos y abrí el link de arriba
 
 Demo interactiva: probá el botón 🔥 (vibra en celular).
 
