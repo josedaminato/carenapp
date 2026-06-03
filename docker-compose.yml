@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: luz-secreta-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: luzsecreta
+      POSTGRES_PASSWORD: luzsecreta_dev
+      POSTGRES_DB: luz_secreta
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U luzsecreta -d luz_secreta"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./backend
+    container_name: luz-secreta-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://luzsecreta:luzsecreta_dev@postgres:5432/luz_secreta?schema=public
+      JWT_SECRET: dev-jwt-secret-change-in-production
+      JWT_REFRESH_SECRET: dev-refresh-secret-change-in-production
+      NODE_ENV: development
+      CORS_ORIGIN: "*"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend/src:/app/src
+    command: sh -c "npx prisma db push && node src/index.js"
+
+volumes:
+  postgres_data:

@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "Luz Secreta",
+    "slug": "luz-secreta",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "luzsecreta",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#0F0A1A"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.luzsecreta.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0F0A1A"
+      },
+      "package": "com.luzsecreta.app"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-notifications",
+        {
+          "color": "#7C3AED"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "apiUrl": "http://localhost:3000/api"
+    }
+  }
+}
