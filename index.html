@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0F0A1A" />
+  <meta name="description" content="Encender Fuego — Alguien lo hizo. Nadie lo sabe." />
+  <title>Encender Fuego 🔥</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0F0A1A;
+      --surface: #1A1228;
+      --surface-light: #2D1F45;
+      --primary: #7C3AED;
+      --secondary: #EC4899;
+      --accent: #3B82F6;
+      --fire: #F97316;
+      --fire-hot: #EF4444;
+      --text: #F8F4FF;
+      --text-muted: #A78BFA;
+      --text-dim: #6B5B8A;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      height: 100%;
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* Desktop: phone frame */
+    .app-shell {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      max-width: 430px;
+      margin: 0 auto;
+      background: var(--bg);
+      position: relative;
+      box-shadow: 0 0 80px rgba(124, 58, 237, 0.15);
+    }
+    @media (min-width: 500px) {
+      body {
+        background: linear-gradient(160deg, #0a0612 0%, #1a0a2e 50%, #0F0A1A 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .app-shell {
+        height: min(844px, 95vh);
+        border-radius: 40px;
+        border: 2px solid var(--surface-light);
+        overflow: hidden;
+      }
+    }
+
+    .screen {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      padding: 24px 20px;
+      animation: fadeIn 0.35s ease;
+    }
+    .screen.active { display: flex; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Welcome */
+    .welcome-hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .welcome-fire {
+      font-size: 80px;
+      line-height: 1;
+      margin-bottom: 24px;
+      filter: drop-shadow(0 0 30px rgba(249, 115, 22, 0.5));
+    }
+    .welcome-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    .welcome-tag {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      border-radius: 20px;
+      border: none;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .btn:active { transform: scale(0.97); opacity: 0.9; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      margin-bottom: 12px;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+    }
+    .btn-fire {
+      background: linear-gradient(135deg, var(--fire), var(--fire-hot), var(--secondary));
+      color: white;
+      font-size: 1.1rem;
+      padding: 18px;
+      margin-top: 32px;
+      box-shadow: 0 8px 32px rgba(239, 68, 68, 0.35);
+    }
+    .btn-fire.lit {
+      animation: btnPulse 1s ease infinite;
+    }
+    @keyframes btnPulse {
+      0%, 100% { box-shadow: 0 8px 32px rgba(239, 68, 68, 0.35); }
+      50% { box-shadow: 0 8px 48px rgba(249, 115, 22, 0.6); }
+    }
+
+    /* Home */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .header h2 { font-size: 1.4rem; font-weight: 700; }
+    .header-link {
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      background: none;
+      border: none;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--surface-light);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .card:active { border-color: var(--primary); }
+    .card-name { font-weight: 600; font-size: 1.05rem; margin-bottom: 4px; }
+    .card-status { color: var(--text-muted); font-size: 0.9rem; }
+    .card-status.on { color: var(--fire); }
+    .dashed-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px dashed var(--primary);
+      background: var(--surface);
+      color: var(--primary);
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .dashed-btn.pink {
+      border-color: var(--secondary);
+      color: var(--secondary);
+    }
+    .home-list { flex: 1; overflow-y: auto; }
+
+    /* Group */
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+    .group-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .fire-visual {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .fire-glow {
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: var(--fire);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .fire-glow.on {
+      opacity: 0.35;
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.15); opacity: 0.55; }
+    }
+    .fire-orb {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--surface-light), var(--surface));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      transition: all 0.5s;
+      z-index: 1;
+    }
+    .fire-orb.on {
+      background: linear-gradient(135deg, var(--fire), var(--fire-hot), var(--secondary));
+      box-shadow: 0 0 40px rgba(249, 115, 22, 0.6);
+      animation: fireBounce 2s ease-in-out infinite;
+    }
+    @keyframes fireBounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+    .fire-msg {
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-align: center;
+      min-height: 28px;
+    }
+    .fire-msg.dim { color: var(--text-dim); font-weight: 400; }
+    .invite-block {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid var(--surface-light);
+    }
+    .invite-label { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 8px; }
+    .invite-code {
+      color: var(--secondary);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-120px);
+      background: var(--surface);
+      border: 1px solid var(--surface-light);
+      border-radius: 16px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+      z-index: 100;
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 90%;
+      width: max-content;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast-icon { font-size: 1.5rem; }
+    .toast-text { font-weight: 600; font-size: 0.95rem; }
+
+    /* Demo banner */
+    .demo-banner {
+      background: rgba(124, 58, 237, 0.15);
+      border-bottom: 1px solid var(--surface-light);
+      padding: 8px 16px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .demo-banner strong { color: var(--secondary); }
+
+    /* Nav dots */
+    .nav-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      flex-shrink: 0;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--surface-light);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .dot.active {
+      background: var(--primary);
+      transform: scale(1.2);
+    }
+
+    .share-footer {
+      text-align: center;
+      padding: 8px;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+    .share-footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div class="demo-banner">
+      <strong>Demo interactiva</strong> — Probá el botón 🔥 (vibra en celular)
+    </div>
+
+    <!-- WELCOME -->
+    <div class="screen active" id="screen-welcome">
+      <div class="welcome-hero">
+        <div class="welcome-fire">🔥</div>
+        <h1 class="welcome-title">ENCENDER FUEGO</h1>
+        <p class="welcome-tag">Alguien lo hizo.<br/>Nadie lo sabe.</p>
+      </div>
+      <button class="btn btn-primary" onclick="goTo('home')">Crear cuenta</button>
+      <button class="btn btn-outline" onclick="goTo('home')">Iniciar sesión</button>
+    </div>
+
+    <!-- HOME -->
+    <div class="screen" id="screen-home">
+      <div class="header">
+        <h2>Mis grupos</h2>
+        <button class="header-link" onclick="goTo('welcome')">Salir</button>
+      </div>
+      <div class="home-list">
+        <div class="card" onclick="goTo('group')">
+          <div class="card-name">Las Reinas</div>
+          <div class="card-status" id="home-status">Fuego apagado</div>
+        </div>
+        <button class="dashed-btn">+ Crear grupo</button>
+        <button class="dashed-btn pink">Unirme con código</button>
+      </div>
+    </div>
+
+    <!-- GROUP -->
+    <div class="screen" id="screen-group">
+      <button class="back-btn" onclick="goTo('home')">← Las Reinas</button>
+      <div class="group-center">
+        <div class="fire-visual">
+          <div class="fire-glow" id="fireGlow"></div>
+          <div class="fire-orb" id="fireOrb">🔥</div>
+        </div>
+        <p class="fire-msg dim" id="fireMsg">El fuego está apagado.</p>
+        <button class="btn btn-fire" id="fireBtn" onclick="encenderFuego()">
+          🔥 ENCENDER FUEGO
+        </button>
+      </div>
+      <div class="invite-block">
+        <div class="invite-label">Invitar amigas</div>
+        <div class="invite-code">ABC12XYZ</div>
+      </div>
+    </div>
+
+    <div class="nav-dots">
+      <button class="dot active" data-screen="welcome" onclick="goTo('welcome')" aria-label="Bienvenida"></button>
+      <button class="dot" data-screen="home" onclick="goTo('home')" aria-label="Grupos"></button>
+      <button class="dot" data-screen="group" onclick="goTo('group')" aria-label="Fuego"></button>
+    </div>
+
+    <div class="share-footer">
+      <a href="https://github.com/josedaminato/carenapp" target="_blank">Ver código en GitHub</a>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <span class="toast-icon">🔥</span>
+    <span class="toast-text">Alguien encendió el fuego.</span>
+  </div>
+
+  <script>
+    let fireActive = false;
+    let fireTimeout = null;
+
+    function goTo(name) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-' + name).classList.add('active');
+      document.querySelectorAll('.dot').forEach(d => {
+        d.classList.toggle('active', d.dataset.screen === name);
+      });
+    }
+
+    function vibrate() {
+      if (navigator.vibrate) {
+        navigator.vibrate([0, 200, 100, 200]);
+      }
+    }
+
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    function setFireActive(active) {
+      fireActive = active;
+      const orb = document.getElementById('fireOrb');
+      const glow = document.getElementById('fireGlow');
+      const msg = document.getElementById('fireMsg');
+      const btn = document.getElementById('fireBtn');
+      const homeStatus = document.getElementById('home-status');
+
+      orb.classList.toggle('on', active);
+      glow.classList.toggle('on', active);
+      btn.classList.toggle('lit', active);
+
+      if (active) {
+        msg.textContent = '🔥 Alguien encendió el fuego.';
+        msg.classList.remove('dim');
+        homeStatus.textContent = '🔥 Fuego encendido';
+        homeStatus.classList.add('on');
+      } else {
+        msg.textContent = 'El fuego está apagado.';
+        msg.classList.add('dim');
+        homeStatus.textContent = 'Fuego apagado';
+        homeStatus.classList.remove('on');
+      }
+    }
+
+    function encenderFuego() {
+      vibrate();
+      setFireActive(true);
+      showToast();
+
+      if (fireTimeout) clearTimeout(fireTimeout);
+      fireTimeout = setTimeout(() => setFireActive(false), 20000);
+    }
+  </script>
+</body>
+</html>
