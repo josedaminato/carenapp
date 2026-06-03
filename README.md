@@ -6,7 +6,11 @@ App minimalista para grupos de amigas. Un botón. Una notificación. Nadie sabe 
 
 **https://josedaminato.github.io/carenapp/**
 
-Demo interactiva en el celular: podés probar el botón 🔥 y vibra si el navegador lo permite.
+Si ves texto del README en lugar de la app, usá este link directo:
+
+**https://josedaminato.github.io/carenapp/?v=2**
+
+Demo interactiva: probá el botón 🔥 (vibra en celular).
 
 **Repositorio:** [github.com/josedaminato/carenapp](https://github.com/josedaminato/carenapp)
 
