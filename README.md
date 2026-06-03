@@ -1,127 +1,58 @@
-# Luz Secreta ✨
+# Encender Fuego 🔥
 
-Aplicación social y lúdica para grupos de amigas. Cuando alguien enciende la "luz", todo el grupo lo sabe — sin revelar quién fue.
+App minimalista para grupos de amigas. Un botón. Una notificación. Nadie sabe quién fue.
 
 **Repositorio:** [github.com/josedaminato/carenapp](https://github.com/josedaminato/carenapp)
 
-## Ver la interfaz
+## Qué hace
 
-### Preview en navegador (GitHub Pages)
+1. Las amigas se registran y forman un grupo (código de invitación).
+2. Entran al grupo y ven el botón **🔥 ENCENDER FUEGO**.
+3. Al apretarlo:
+   - Su celular **vibra** (si dieron permiso).
+   - El resto recibe: **"🔥 Alguien encendió el fuego."**
+   - Nadie sabe quién fue.
 
-1. En GitHub → **Settings** → **Pages**
-2. Source: **Deploy from a branch** → Branch `main` → Folder **`/docs`**
-3. Guarda y espera ~1 minuto
-4. Abre: **https://josedaminato.github.io/carenapp/preview/**
+## Qué NO hace
 
-### App interactiva (Expo)
-
-```bash
-cd mobile
-npm install
-npx expo start
-```
-
-Escanea el QR con **Expo Go** en tu celular.
-
-## Estructura del proyecto
-
-```
-CarenApp/
-├── docs/
-│   ├── ARCHITECTURE.md    # Arquitectura y decisiones técnicas
-│   ├── WIREFRAMES.md      # Wireframes en texto
-│   ├── ROADMAP.md         # Evolución hacia versión comercial
-│   └── API.md             # Documentación REST
-├── backend/               # API Node.js + Express + Prisma
-│   ├── prisma/schema.prisma
-│   └── src/
-│       ├── config/
-│       ├── controllers/
-│       ├── middleware/
-│       ├── routes/
-│       ├── services/
-│       └── utils/
-├── mobile/                # App React Native + Expo
-│   ├── app/               # Pantallas (Expo Router)
-│   └── src/
-│       ├── components/
-│       ├── context/
-│       ├── hooks/
-│       ├── services/
-│       └── theme/
-└── docker-compose.yml
-```
-
-## Requisitos
-
-- Node.js 20+
-- Docker Desktop
-- Expo Go (móvil) o emulador
+- Sin chat, estadísticas, muro, reacciones ni rankings.
+- Sin hora, fecha ni historial visible.
 
 ## Inicio rápido
 
-### 1. Base de datos y API (Docker)
-
 ```bash
+# Base de datos
 docker compose up -d postgres
-```
 
-### 2. Backend (desarrollo local)
-
-```bash
+# Backend
 cd backend
-cp .env.example .env
 npm install
-npx prisma generate
 npx prisma db push
 npm run dev
-```
 
-API disponible en `http://localhost:3000`
-
-### 3. App móvil
-
-```bash
+# App
 cd mobile
 npm install
 npx expo start
 ```
 
-> **Nota Android/emulador:** Cambia `apiUrl` en `mobile/app.json` a `http://10.0.2.2:3000/api` (Android emulator) o la IP de tu máquina en red local.
+> En Android/emulador: cambiá `apiUrl` en `mobile/app.json` a `http://10.0.2.2:3000/api`.
 
-### Todo con Docker
+## API (MVP)
 
-```bash
-docker compose up --build
-```
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| POST | `/api/auth/register` | Registro |
+| POST | `/api/auth/login` | Login |
+| GET | `/api/groups` | Mis grupos |
+| POST | `/api/groups` | Crear grupo |
+| POST | `/api/groups/join` | Unirse con código |
+| GET | `/api/groups/:id` | Estado del fuego |
+| POST | `/api/groups/:id/fire` | Encender fuego |
+| POST | `/api/push/register` | Token push |
 
-## Pantallas implementadas
+## Stack
 
-| Pantalla | Ruta |
-|----------|------|
-| Bienvenida | `/(auth)/welcome` |
-| Registro | `/(auth)/register` |
-| Login | `/(auth)/login` |
-| Recuperar contraseña | `/(auth)/forgot-password` |
-| Home (mis grupos) | `/(app)/home` |
-| Crear grupo | `/(app)/create-group` |
-| Unirse con código | `/(app)/join-group` |
-| Grupo (luz + muro + stats) | `/(app)/group/[id]` |
-
-## Principio de anonimato
-
-- `LightEvent.userId` existe en BD solo para rate-limit y moderación.
-- Ningún endpoint REST expone quién activó una luz.
-- Estadísticas siempre agregadas a nivel grupo.
-- Reacciones devueltas como conteos por emoji.
-
-## Documentación
-
-- [Arquitectura](./docs/ARCHITECTURE.md)
-- [Wireframes](./docs/WIREFRAMES.md)
-- [API REST](./docs/API.md)
-- [Roadmap comercial](./docs/ROADMAP.md)
-
-## Licencia
-
-Proyecto privado — MVP de desarrollo.
+- **Mobile:** React Native + Expo
+- **Backend:** Node.js + Express + Prisma
+- **DB:** PostgreSQL

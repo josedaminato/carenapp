@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import {
-  View,
   Text,
   StyleSheet,
   FlatList,
@@ -15,7 +14,7 @@ import { api } from '../../src/services/api';
 import { colors, spacing, borderRadius, typography } from '../../src/theme';
 
 export default function HomeScreen() {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const [groups, setGroups] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -43,10 +42,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <View>
-          <Text style={styles.greeting}>Hola, {user?.displayName} ✨</Text>
-          <Text style={styles.subtitle}>Mis grupos</Text>
-        </View>
+        <Text style={styles.title}>Mis grupos</Text>
         <TouchableOpacity onPress={logout}>
           <Text style={styles.logout}>Salir</Text>
         </TouchableOpacity>
@@ -60,7 +56,7 @@ export default function HomeScreen() {
         }
         contentContainerStyle={styles.list}
         ListEmptyComponent={
-          <Text style={styles.empty}>Aún no tienes grupos. ¡Crea uno o únete con un código!</Text>
+          <Text style={styles.empty}>Creá un grupo o unite con un código de invitación.</Text>
         }
         renderItem={({ item }) => (
           <TouchableOpacity
@@ -68,9 +64,9 @@ export default function HomeScreen() {
             onPress={() => router.push(`/(app)/group/${item.id}`)}
             activeOpacity={0.8}
           >
-            <Text style={styles.groupName}>💜 {item.name}</Text>
-            <Text style={styles.groupMeta}>
-              {item.memberCount} integrantes · 🔥 {item.lightsToday ?? 0} hoy
+            <Text style={styles.groupName}>{item.name}</Text>
+            <Text style={styles.groupStatus}>
+              {item.fireActive ? '🔥 Fuego encendido' : 'Fuego apagado'}
             </Text>
           </TouchableOpacity>
         )}
@@ -84,7 +80,7 @@ export default function HomeScreen() {
         </Link>
         <Link href="/(app)/join-group" asChild>
           <TouchableOpacity style={[styles.actionBtn, styles.actionOutline]}>
-            <Text style={styles.actionOutlineText}>🔗 Unirse con código</Text>
+            <Text style={styles.actionOutlineText}>Unirme con código</Text>
           </TouchableOpacity>
         </Link>
       </View>
@@ -97,12 +93,11 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     padding: spacing.lg,
     paddingBottom: spacing.sm,
   },
-  greeting: { ...typography.subtitle, fontSize: 22 },
-  subtitle: { ...typography.caption, marginTop: 4 },
+  title: { ...typography.title, fontSize: 24 },
   logout: { color: colors.textDim, fontSize: 14 },
   list: { padding: spacing.lg, paddingTop: 0, flexGrow: 1 },
   empty: {
@@ -120,7 +115,7 @@ const styles = StyleSheet.create({
     borderColor: colors.surfaceLight,
   },
   groupName: { color: colors.text, fontSize: 18, fontWeight: '600', marginBottom: 4 },
-  groupMeta: { color: colors.textMuted, fontSize: 14 },
+  groupStatus: { color: colors.textMuted, fontSize: 14 },
   footer: { padding: spacing.lg, gap: spacing.sm },
   actionBtn: {
     backgroundColor: colors.surface,

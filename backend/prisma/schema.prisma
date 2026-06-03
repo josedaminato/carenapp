@@ -15,27 +15,27 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
-  memberships      GroupMember[]
-  lightEvents      LightEvent[]
-  reactions        Reaction[]
-  refreshTokens    RefreshToken[]
-  pushTokens       PushToken[]
-  passwordResets   PasswordResetToken[]
+  memberships    GroupMember[]
+  fireEvents     FireEvent[]
+  refreshTokens  RefreshToken[]
+  pushTokens     PushToken[]
+  passwordResets PasswordResetToken[]
 
   @@map("users")
 }
 
 model Group {
-  id         String    @id @default(uuid())
-  name       String
-  inviteCode String    @unique @map("invite_code")
-  createdBy  String    @map("created_by")
-  isActive   Boolean   @default(true) @map("is_active")
-  createdAt  DateTime  @default(now()) @map("created_at")
-  updatedAt  DateTime  @updatedAt @map("updated_at")
+  id           String    @id @default(uuid())
+  name         String
+  inviteCode   String    @unique @map("invite_code")
+  createdBy    String    @map("created_by")
+  fireLitUntil DateTime? @map("fire_lit_until")
+  isActive     Boolean   @default(true) @map("is_active")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
 
-  members     GroupMember[]
-  lightEvents LightEvent[]
+  members    GroupMember[]
+  fireEvents FireEvent[]
 
   @@map("groups")
 }
@@ -53,35 +53,19 @@ model GroupMember {
   @@map("group_members")
 }
 
-/// userId almacenado solo para rate-limit y moderación — NUNCA expuesto en API
-model LightEvent {
+/// userId solo uso interno (rate limit) — nunca expuesto en API
+model FireEvent {
   id          String   @id @default(uuid())
   groupId     String   @map("group_id")
   userId      String   @map("user_id")
-  message     String
   triggeredAt DateTime @default(now()) @map("triggered_at")
 
-  group     Group      @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  reactions Reaction[]
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([groupId, triggeredAt])
   @@index([userId, triggeredAt])
-  @@map("light_events")
-}
-
-model Reaction {
-  id           String   @id @default(uuid())
-  lightEventId String   @map("light_event_id")
-  userId       String   @map("user_id")
-  emoji        String
-  createdAt    DateTime @default(now()) @map("created_at")
-
-  lightEvent LightEvent @relation(fields: [lightEventId], references: [id], onDelete: Cascade)
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([lightEventId, userId, emoji])
-  @@map("reactions")
+  @@map("fire_events")
 }
 
 model RefreshToken {

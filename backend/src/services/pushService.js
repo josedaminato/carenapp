@@ -20,6 +20,8 @@ async function sendPushToUsers(userIds, { title, body, data = {} }) {
     title,
     body,
     data,
+    priority: 'high',
+    channelId: 'fire',
   }));
 
   if (process.env.NODE_ENV === 'development') {

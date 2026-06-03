@@ -7,7 +7,6 @@ const { errorHandler } = require('./middleware/errorHandler');
 
 const authRoutes = require('./routes/authRoutes');
 const groupRoutes = require('./routes/groupRoutes');
-const reactionRoutes = require('./routes/reactionRoutes');
 const pushRoutes = require('./routes/pushRoutes');
 
 const app = express();
@@ -25,12 +24,11 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', service: 'luz-secreta-api' });
+  res.json({ status: 'ok', service: 'encender-fuego-api' });
 });
 
 app.use('/api/auth', authRoutes);
 app.use('/api/groups', groupRoutes);
-app.use('/api/events', reactionRoutes);
 app.use('/api/push', pushRoutes);
 
 app.use(errorHandler);

@@ -23,10 +23,6 @@ router.post(
 
 router.get('/:id', groupController.getGroup);
 
-router.post('/:id/lights', groupController.triggerLight);
-
-router.get('/:id/feed', groupController.getFeed);
-
-router.get('/:id/stats', groupController.getStats);
+router.post('/:id/fire', groupController.triggerFire);
 
 module.exports = router;

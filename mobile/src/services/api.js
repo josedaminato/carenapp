@@ -78,12 +78,7 @@ export const api = {
   createGroup: (body) => request('/groups', { method: 'POST', body }),
   joinGroup: (body) => request('/groups/join', { method: 'POST', body }),
   getGroup: (id) => request(`/groups/${id}`),
-  triggerLight: (id) => request(`/groups/${id}/lights`, { method: 'POST' }),
-  getFeed: (id) => request(`/groups/${id}/feed`),
-  getStats: (id) => request(`/groups/${id}/stats`),
-
-  addReaction: (eventId, emoji) =>
-    request(`/events/${eventId}/reactions`, { method: 'POST', body: { emoji } }),
+  triggerFire: (id) => request(`/groups/${id}/fire`, { method: 'POST' }),
 
   registerPush: (body) => request('/push/register', { method: 'POST', body }),
 };

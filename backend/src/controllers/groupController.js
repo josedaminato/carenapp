@@ -36,30 +36,10 @@ async function getGroup(req, res, next) {
   }
 }
 
-async function triggerLight(req, res, next) {
+async function triggerFire(req, res, next) {
   try {
-    const event = await groupService.triggerLight(req.params.id, req.userId);
-    res.status(201).json({ event });
-  } catch (err) {
-    next(err);
-  }
-}
-
-async function getFeed(req, res, next) {
-  try {
-    await groupService.ensureMembership(req.params.id, req.userId);
-    const feed = await groupService.getGroupFeed(req.params.id);
-    res.json({ feed });
-  } catch (err) {
-    next(err);
-  }
-}
-
-async function getStats(req, res, next) {
-  try {
-    await groupService.ensureMembership(req.params.id, req.userId);
-    const stats = await groupService.getGroupStats(req.params.id);
-    res.json({ stats });
+    const group = await groupService.triggerFire(req.params.id, req.userId);
+    res.status(201).json({ group });
   } catch (err) {
     next(err);
   }
@@ -70,7 +50,5 @@ module.exports = {
   joinGroup,
   listGroups,
   getGroup,
-  triggerLight,
-  getFeed,
-  getStats,
+  triggerFire,
 };

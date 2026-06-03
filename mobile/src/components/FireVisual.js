@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { View, StyleSheet, Animated, Easing } from 'react-native';
+import { View, Text, StyleSheet, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from '../theme';
 
-export function LightOrb({ active, size = 140 }) {
+export function FireVisual({ active, size = 140 }) {
   const pulse = useRef(new Animated.Value(0)).current;
   const glow = useRef(new Animated.Value(0.3)).current;
 
@@ -47,7 +47,7 @@ export function LightOrb({ active, size = 140 }) {
 
   const scale = pulse.interpolate({
     inputRange: [0, 1],
-    outputRange: [1, 1.15],
+    outputRange: [1, 1.12],
   });
 
   const opacity = glow.interpolate({
@@ -73,24 +73,18 @@ export function LightOrb({ active, size = 140 }) {
         <LinearGradient
           colors={
             active
-              ? [colors.primary, colors.secondary, colors.accent]
+              ? ['#F97316', '#EF4444', colors.secondary]
               : [colors.surfaceLight, colors.surface]
           }
           style={[
             styles.orb,
-            {
-              width: size,
-              height: size,
-              borderRadius: size / 2,
-            },
+            { width: size, height: size, borderRadius: size / 2 },
           ]}
         />
       </Animated.View>
-      {active && (
-        <View style={[styles.sparkle, { top: size * 0.1, right: size * 0.15 }]}>
-          <Animated.Text style={{ opacity, fontSize: 20 }}>✨</Animated.Text>
-        </View>
-      )}
+      <Text style={[styles.emoji, { fontSize: size * 0.45, opacity: active ? 1 : 0.35 }]}>
+        🔥
+      </Text>
     </View>
   );
 }
@@ -102,16 +96,16 @@ const styles = StyleSheet.create({
   },
   glowRing: {
     position: 'absolute',
-    backgroundColor: colors.glow,
+    backgroundColor: '#F97316',
   },
   orb: {
-    shadowColor: colors.primary,
+    shadowColor: '#EF4444',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 20,
     elevation: 10,
   },
-  sparkle: {
+  emoji: {
     position: 'absolute',
   },
 });

@@ -11,8 +11,8 @@ module.exports = {
   },
   corsOrigin: process.env.CORS_ORIGIN || '*',
   bcryptRounds: 12,
-  maxLightsPerHour: 10,
-  minGroupMembers: 2,
+  maxFiresPerHour: 10,
   maxGroupMembers: 20,
   inviteCodeLength: 8,
+  fireDurationMinutes: 20,
 };
